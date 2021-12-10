@@ -8,22 +8,22 @@ Compared with state-of-the-art tools such as Peach and Fluffy, LOKI improves the
 
 * Code coverage
 
-[geth_branch.pdf](https://github.com/BlockFuzz/LOKI/files/7681788/geth_branch.pdf)
+![geth_branch](https://github.com/BlockFuzz/LOKI/files/7681788/geth_branch.pdf)
 
-[diem_branch.pdf](https://github.com/BlockFuzz/LOKI/files/7681791/diem_branch.pdf)
+![diem_branch](https://github.com/BlockFuzz/LOKI/files/7681791/diem_branch.pdf)
 
-[fabric_branch.pdf](https://github.com/BlockFuzz/LOKI/files/7681792/fabric_branch.pdf)
+![fabric_branch](https://github.com/BlockFuzz/LOKI/files/7681792/fabric_branch.pdf)
 
-[fisco_branch.pdf](https://github.com/BlockFuzz/LOKI/files/7681793/fisco_branch.pdf)
+![fisco_branch](https://github.com/BlockFuzz/LOKI/files/7681793/fisco_branch.pdf)
 
 
 * Throughput
 
-[tps_ethereum.pdf](https://github.com/BlockFuzz/LOKI/files/7681797/tps_ethereum.pdf)
+![tps_ethereum.pdf](https://github.com/BlockFuzz/LOKI/files/7681797/tps_ethereum.pdf)
 
-[tps_diem.pdf](https://github.com/BlockFuzz/LOKI/files/7681798/tps_diem.pdf)
+![tps_diem.pdf](https://github.com/BlockFuzz/LOKI/files/7681798/tps_diem.pdf)
 
-[tps_fabric.pdf](https://github.com/BlockFuzz/LOKI/files/7681799/tps_fabric.pdf)
+![tps_fabric.pdf](https://github.com/BlockFuzz/LOKI/files/7681799/tps_fabric.pdf)
 
-[tps_fisco.pdf](https://github.com/BlockFuzz/LOKI/files/7681800/tps_fisco.pdf)
+![tps_fisco.pdf](https://github.com/BlockFuzz/LOKI/files/7681800/tps_fisco.pdf)
 
