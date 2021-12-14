@@ -54,7 +54,53 @@ cd fabric/testnet
 
 
 ## LOKI for go-ethereum
+### prerequisites
+Setup geth network environment, can be found in https://priyalwalpita.medium.com/setting-up-the-go-ethereum-geth-environment-in-ubuntu-linux-67c09706b42.
 
+### setup LOKI testnet & start fuzzing
+
+```bash
+cd geth/testnet
+```
+#### setup bootnode
+```bash
+../bin/bootnode -genkey bootnode.key
+../bin/bootnode -nodekey bootnode.key
+```
+#### initialize node
+```bash
+for i in 1 2 3 4 5; do ../bin/geth --datadir ./node$i account new; done 
+```
+#### run loki-geth node
+
+##### node1
+```bash
+../build/bin/geth --identity "ETH-node1" --datadir "node1" --port "30303" --maxpeers 10 --networkid 10086  --syncmode "full" --bootnodes "enode://5e49cd079bf47d4485867d4fb06a89f211b21be822a05cc8be6ce72b624aa94f4ac65e063fc4d0e62fe2342290bf5c880f6888534ae1df045f67186718d3c3f6@127.0.0.1:0?discport=30301" --mine --miner.etherbase 0xd192415624a039b24ad571f96cb438de9f0556a7 --miner.threads 1 --http --http.port 8545 console
+```
+
+##### node2
+```bash
+../build/bin/geth --identity "ETH-node2" --datadir "node2" --port "30304" --maxpeers 10 --networkid 10086  --syncmode "full" --bootnodes "enode://5e49cd079bf47d4485867d4fb06a89f211b21be822a05cc8be6ce72b624aa94f4ac65e063fc4d0e62fe2342290bf5c880f6888534ae1df045f67186718d3c3f6@127.0.0.1:0?discport=30301" --mine --miner.etherbase 0xd192415624a039b24ad571f96cb438de9f0556a7 --miner.threads 1 console
+```
+
+##### node3
+```bash
+../build/bin/geth --identity "ETH-node3" --datadir "node3" --port "30305" --maxpeers 10 --networkid 10086  --syncmode "full" --bootnodes "enode://5e49cd079bf47d4485867d4fb06a89f211b21be822a05cc8be6ce72b624aa94f4ac65e063fc4d0e62fe2342290bf5c880f6888534ae1df045f67186718d3c3f6@127.0.0.1:0?discport=30301" --mine --miner.etherbase 0xd192415624a039b24ad571f96cb438de9f0556a7 --miner.threads 1 console
+```
+
+##### node4
+```bash
+../build/bin/geth --identity "ETH-node4" --datadir "node4" --port "30306" --maxpeers 10 --networkid 10086  --syncmode "full" --bootnodes "enode://5e49cd079bf47d4485867d4fb06a89f211b21be822a05cc8be6ce72b624aa94f4ac65e063fc4d0e62fe2342290bf5c880f6888534ae1df045f67186718d3c3f6@127.0.0.1:0?discport=30301" --mine --miner.etherbase 0xd192415624a039b24ad571f96cb438de9f0556a7 --miner.threads 1 console
+```
+
+##### node5
+```bash
+../build/bin/geth --identity "ETH-node5" --datadir "node5" --port "30307" --maxpeers 10 --networkid 10086  --syncmode "full" --bootnodes "enode://5e49cd079bf47d4485867d4fb06a89f211b21be822a05cc8be6ce72b624aa94f4ac65e063fc4d0e62fe2342290bf5c880f6888534ae1df045f67186718d3c3f6@127.0.0.1:0?discport=30301" --mine --miner.etherbase 0xd192415624a039b24ad571f96cb438de9f0556a7 --miner.threads 1 console
+```
+
+#### ...
+
+#### node_n
 
 
 # Troubleshooting
