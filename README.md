@@ -27,3 +27,27 @@ Compared with state-of-the-art tools such as Peach and Fluffy, LOKI improves the
 
 ![tps_fisco.pdf](https://github.com/BlockFuzz/LOKI/files/7681800/tps_fisco.pdf)
 
+
+
+
+# Quickstart
+
+## LOKI for fabric
+
+### prerequisites
+Setup fabric network environment, can be found in https://hyperledger-fabric.readthedocs.io/en/release/prereqs.html.
+
+### load LOKI-fabric image
+```bash
+cd fabric
+docker import - smartbft/fabric-orderer:latest < LOKI-fabric.tar
+```
+
+### setup LOKI testnet & start fuzzing
+
+```bash
+cd fabric/testnet
+./byfn generate
+./byfn up
+./byfn down
+```
