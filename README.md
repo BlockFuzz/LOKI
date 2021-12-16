@@ -102,6 +102,27 @@ for i in 1 2 3 4 5; do ../bin/geth --datadir ./node$i account new; done
 
 #### node_n
 
+## LOKI for fisco
+
+### prerequisites
+Setup fisco network environment, can be found in https://fisco-bcos-documentation.readthedocs.io/en/latest/docs/installation.html
+
+### setup LOKI testnet & start fuzzing
+
+```bash
+cd fisco/testnet
+bash build_chain.sh -l 127.0.0.1:4 -p 30300,20200,8545
+```
+This will setup a local 4-node consortium chain of fisco-bcos, change 1 of the node to LOKI node:
+```bash
+# Change the start.sh and stop.sh of node0 to:
+fisco_bcos=LOKI/fisco/bin/fisco-bcos
+```
+Then use the start-all shell to start the chain nodes:
+```bash
+cd nodes
+./start_all.sh
+```
 
 # Troubleshooting
 Create an issue for questions and bug reports.
