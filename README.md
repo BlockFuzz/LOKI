@@ -124,6 +124,17 @@ cd nodes
 ./start_all.sh
 ```
 
+## LOKI for Diem
+### prerequisites
+Just need to setup rust environment.
+
+### setup LOKI testnet & start fuzzing
+Use the following command line to start a swarm of 4 nodes with 1 LOKI node and start fuzzing.
+```bash
+bin/diem-swarm --fuzzer-node bin/diem-node --diem-node YOUR_PATH_TO_NORMAL_DIEM_NODE/diem-node -n 4 -t 1 -c ./tmp
+```
+
+
 # Troubleshooting
 Create an issue for questions and bug reports.
 
