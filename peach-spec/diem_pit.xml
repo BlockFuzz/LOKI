@@ -1,0 +1,1158 @@
+<?xml version="1.0" encoding="utf_8"?>
+<Peach xmlns="http://phed.org/2008/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema_instance"
+	xsi:schemaLocation="http://phed.org/2008/Peach /peach/peach.xsd">
+
+	<PythonPath path="c:/code/fuzzers/peach2" />
+	
+	<Import import="Peach" />
+	<Import from="Peach" import="logger" />
+	<Import from="Peach.Mutators" import="*" />
+	<Import from="Peach.Generators.dictionary" import="*" />
+	<Import from="Peach.Generators.data" import="*" />
+	<Import from="Peach.Generators.static" import="*" />
+	<Import from="Peach.Generators.block" import="*" />
+	<Import from="Peach.Generators.incrementor" import="*" />
+	<Import from="Peach.Generators.repeater" import="*" />
+	<Import from="Peach.Generators" import="*" />
+	<Import from="Peach.Transformers" import="*" />
+	<Import from="Peach.Fixups" import="*" />
+	<Import from="Peach.Publishers" import="*" />
+	<Import from="Peach.publisher" import="*" />
+	<Import from="Peach.MutateStrategies" import="*" />
+	
+	<Mutators>
+		<Mutator class="number.NumericalEdgeCaseMutator" />
+		<Mutator class="number.NumericalVarianceMutator" />
+		<Mutator class="number.FiniteRandomNumbersMutator" />
+		<Mutator class="blob.BlobMutator" />
+		<Mutator class="blob.BitFlipperMutator" />
+		<Mutator class="blob.DWORDSliderMutator" />
+		<!__ <Mutator class="datatree.DataTreeRemoveMutator" />
+		<Mutator class="datatree.DataTreeDuplicateMutator" />
+		<Mutator class="datatree.DataTreeSwapNearNodesMutator" /> __>
+		<Mutator class="array.ArrayVarianceMutator" />
+		<Mutator class="array.ArrayNumericalEdgeCasesMutator" />
+		<Mutator class="array.ArrayReverseOrderMutator" />
+		<Mutator class="array.ArrayRandomizeOrderMutator" />
+		<Mutator class="size.SizedVaranceMutator" />
+		<Mutator class="size.SizedNumericalEdgeCasesMutator" />
+		<!__ <Mutator class="string.StringMutator" /> __>
+		<Mutator class="string.XmlW3CMutator"/>
+		<Mutator class="string.PathMutator"/>
+		<Mutator class="string.HostnameMutator"/>
+		<Mutator class="string.FilenameMutator"/>
+		<Mutator class="string.StringCaseMutator" />
+		<!__ <Mutator class="string.UnicodeBomMutator" />
+		<Mutator class="string.UnicodeStringsMutator" />
+		<Mutator class="string.UnicodeBadUtf8Mutator" />
+		<Mutator class="string.UnicodeUtf8ThreeCharMutator" /> __>
+		<Mutator class="string.ValidValuesMutator" />
+	</Mutators>	
+
+    <!__ Diem_SyncInfo __>
+    <DataModel name="SyncInfo">
+        <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="1" size="4"/>
+		</Block>
+        <Blob name="highest_quorum_cert"/>
+        <Blob name="highest_ordered_cert"/>
+        <String name="highest_ledger_info" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/>  
+        <Blob name="highest_timeout_cert"/>
+        <Blob name="highest_2chain_timeout_cert"/>      
+    </DataModel>
+
+    <!__ Diem_HeartBeat __>
+    <DataModel name="HeartBeat">
+		<Number name="view" valueType="hex" value="1224" size="64"/>
+		<Number name="Seq" valueType="hex" value="41224" size="64"/>
+		<String name="extra" value="protobuf:'bytes,3,opt,name=digest,proto3' json:'digest,omitempty"/>
+	</DataModel>
+
+    <!__ Diem_HeartBeatResponse __>
+	<DataModel name="HeartBeatResponse">
+		<Number name="view" valueType="hex" value="1224" size="64"/>
+		<String name="extra" value="protobuf:'bytes,3,opt,name=digest,proto3' json:'digest,omitempty"/>
+	</DataModel>
+
+	<!__  Diem_proposal__>
+	<DataModel name="ProposalMsg">
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="1646866738"/>
+        <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+        <String name="sig2"/>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+    <!__ BlockRetrievalRequest__>
+    <DataModel name="BlockRetrievalRequest">
+        <String name="block_id" value="1646866738"/>
+        <Number name="num_blocks" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="target_block_id" value="1646866738"/>
+    </DataModel>
+
+    <!__ Block__>
+    <DataModel name="Block">
+        <String name="block_id" value="1646866738"/>
+        <Blob name="Block_data" size="32" />
+        <String name="sig2"/>
+    </DataModel>
+
+    <!__ EpochRetrievalRequest __>
+    <DataModel name="EpochRetrievalRequest">
+        <Number name="start_epoch" size="32" valueType="hex" value="0000" signed="false"/>
+        <Number name="end_epoch" size="32" valueType="hex" value="0000" signed="false"/>
+    </DataModel>
+
+    <!__ ExecutedBlock __>
+    <DataModel name="ExecutedBlock">
+        <Block name="block" size="32" />
+            <String name="block_id" value="1646866738"/>
+            <Blob name="Block_data" size="32" />
+            <String name="sig2"/>
+        </Block>
+        <Blob name="state_compute_result" size="32"/>
+    </DataModel>
+
+    <!__ QuorumCert __>
+    <DataModel name="QuorumCert">
+        <Block name="votedata" size="32" />
+        </Block>
+        <Block name="signed_ledger_info" size="32" />
+        </Block>
+    </DataModel>
+
+    <!__ SafetyData __>
+    <DataModel name="SafetyData">
+        <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+        <Number name="last_voted_round" size="32" valueType="hex" value="0000" signed="false"/>
+        <Number name="preferred_round" size="32" valueType="hex" value="0000" signed="false"/>
+        <Number name="one_chain_round" size="32" valueType="hex" value="0000" signed="false"/>
+        <Blob name="last_vote"/>
+    </DataModel>
+
+    <!__ TimeoutCertificate __>
+    <DataModel name="TimeoutCertificate">
+        <String name="timeout" value="1646866738"/>
+        <String name="signatures" value="1646866738"/>
+    </DataModel>
+
+    <!__ Timeout __>
+    <DataModel name="Timeout">
+        <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+        <Blob name="round" value="1646866738"/>
+    </DataModel>
+
+    <!__ VoteData __>
+    <DataModel name="VoteData">
+        <Block name="proposed" size="32" />
+        </Block>
+        <Block name="parent" size="32" />
+        </Block>
+    </DataModel>
+
+    <!__ Vote __>
+    <DataModel name="Vote">
+        <Block name="votedata" size="32">
+            <Block name="proposed" size="32" />
+            </Block>
+            <Block name="parent" size="32" />
+            </Block>
+        </Block>
+        <Blob name="author" value="1646866738"/>
+        <Blob name="ledger_info" value="1646866738"/>
+        <Blob name="signature" value="1646866738"/>
+        <Blob name="timeout_signature" value="1646866738"/>
+        <Block name="two_chain_timeout">
+            <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+            <Blob name="round" value="1646866738"/>
+        </Block>
+    </DataModel>
+
+    <!__ VoteProposal __>
+    <DataModel name="VoteProposal">
+        <Blob name="accumulator_extension_proof" value="1646866738"/>
+        <Block name="block" size="32">
+            <String name="block_id" value="1646866738"/>
+            <Blob name="Block_data" size="32" />
+            <String name="sig2"/>
+        </Block>
+        <Blob name="next_epoch_state" value="1646866738"/>
+        <Flag name="decoupled_execution" value="1646866738"/>
+    </DataModel>
+
+    <!__ VoteMsg __>
+    <DataModel name="VoteMsg">
+        <Block name="vote" size="32">
+            <Block name="votedata" size="32">
+                <Block name="proposed" size="32" />
+                </Block>
+                <Block name="parent" size="32" />
+                </Block>
+            </Block>
+            <Blob name="author" value="1646866738"/>
+            <Blob name="ledger_info" value="1646866738"/>
+            <Blob name="signature" value="1646866738"/>
+            <Blob name="timeout_signature" value="1646866738"/>
+            <Block name="two_chain_timeout">
+                <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+                <Blob name="round" value="1646866738"/>
+            </Block>
+        </Block>
+        <Block name="sync_info" size="32">
+            <Block name="packet_type">
+                <Blob name="header" valueType="hex" value="000000000000" /> 
+                <Number name="id" valueType="hex" value="1" size="4"/>
+            </Block>
+            <Blob name="highest_quorum_cert"/>
+            <Blob name="highest_ordered_cert"/>
+            <String name="highest_ledger_info" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/>  
+            <Blob name="highest_timeout_cert"/>
+            <Blob name="highest_2chain_timeout_cert"/>  
+        </Block>
+    </DataModel>
+
+    <!__ Consensus_SyncInfo __>
+    <DataModel name="Consensus_SyncInfo">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+                <Blob name="header" valueType="hex" value="000000000000" /> 
+                <Number name="id" valueType="hex" value="1" size="4"/>
+            </Block>
+            <Blob name="highest_quorum_cert"/>
+            <Blob name="highest_ordered_cert"/>
+            <String name="highest_ledger_info" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/>  
+            <Blob name="highest_timeout_cert"/>
+            <Blob name="highest_2chain_timeout_cert"/> 
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_HeartBeatResponse __>
+    <DataModel name="Consensus_HeartBeatResponse">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Number name="view" valueType="hex" value="1224" size="64"/>
+		    <String name="extra" value="protobuf:'bytes,3,opt,name=digest,proto3' json:'digest,omitempty"/> 
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_HeartBeat __>
+    <DataModel name="Consensus_HeartBeat">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Number name="view" valueType="hex" value="1224" size="64"/>
+            <Number name="Seq" valueType="hex" value="41224" size="64"/>
+            <String name="extra" value="protobuf:'bytes,3,opt,name=digest,proto3' json:'digest,omitempty"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_ProposalMsg __>
+    <DataModel name="Consensus_ProposalMsg">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="timestamp" value="1646866738"/>
+            <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+            <String name="sig2"/>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+		    </Block>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_BlockRetrievalRequest __>
+    <DataModel name="Consensus_BlockRetrievalRequest">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<String name="block_id" value="1646866738"/>
+            <Number name="num_blocks" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="target_block_id" value="1646866738"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_Block __>
+    <DataModel name="Consensus_Block">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<String name="block_id" value="1646866738"/>
+            <Blob name="Block_data" size="32" />
+            <String name="sig2"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_EpochRetrievalRequest __>
+    <DataModel name="Consensus_EpochRetrievalRequest">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Number name="start_epoch" size="32" valueType="hex" value="0000" signed="false"/>
+        <Number name="end_epoch" size="32" valueType="hex" value="0000" signed="false"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_ExecutedBlock __>
+    <DataModel name="Consensus_ExecutedBlock">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="block" size="32" />
+                <String name="block_id" value="1646866738"/>
+                <Blob name="Block_data" size="32" />
+                <String name="sig2"/>
+            </Block>
+            <Blob name="state_compute_result" size="32"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_QuorumCert __>
+    <DataModel name="Consensus_QuorumCert">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="votedata" size="32" />
+            </Block>
+            <Block name="signed_ledger_info" size="32" />
+            </Block>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_SafetyData __>
+    <DataModel name="Consensus_SafetyData">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+            <Number name="last_voted_round" size="32" valueType="hex" value="0000" signed="false"/>
+            <Number name="preferred_round" size="32" valueType="hex" value="0000" signed="false"/>
+            <Number name="one_chain_round" size="32" valueType="hex" value="0000" signed="false"/>
+            <Blob name="last_vote"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_VoteData __>
+    <DataModel name="Consensus_VoteData">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="proposed" size="32" />
+            </Block>
+            <Block name="parent" size="32" />
+            </Block>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_Vote __>
+    <DataModel name="Consensus_Vote">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="votedata" size="32">
+                <Block name="proposed" size="32" />
+                </Block>
+                <Block name="parent" size="32" />
+                </Block>
+            </Block>
+            <Blob name="author" value="1646866738"/>
+            <Blob name="ledger_info" value="1646866738"/>
+            <Blob name="signature" value="1646866738"/>
+            <Blob name="timeout_signature" value="1646866738"/>
+            <Block name="two_chain_timeout">
+                <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+                <Blob name="round" value="1646866738"/>
+            </Block>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_VoteProposal __>
+    <DataModel name="Consensus_VoteProposa">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Blob name="accumulator_extension_proof" value="1646866738"/>
+            <Block name="block" size="32">
+                <String name="block_id" value="1646866738"/>
+                <Blob name="Block_data" size="32" />
+                <String name="sig2"/>
+            </Block>
+            <Blob name="next_epoch_state" value="1646866738"/>
+            <Flag name="decoupled_execution" value="1646866738"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ Consensus_VoteMsg __>
+    <DataModel name="Consensus_VoteMsg">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="vote" size="32">
+                <Block name="votedata" size="32">
+                    <Block name="proposed" size="32" />
+                    </Block>
+                    <Block name="parent" size="32" />
+                    </Block>
+                </Block>
+                <Blob name="author" value="1646866738"/>
+                <Blob name="ledger_info" value="1646866738"/>
+                <Blob name="signature" value="1646866738"/>
+                <Blob name="timeout_signature" value="1646866738"/>
+                <Block name="two_chain_timeout">
+                    <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+                    <Blob name="round" value="1646866738"/>
+                </Block>
+            </Block>
+            <Block name="sync_info" size="32">
+                <Block name="packet_type">
+                    <Blob name="header" valueType="hex" value="000000000000" /> 
+                    <Number name="id" valueType="hex" value="1" size="4"/>
+                </Block>
+                <Blob name="highest_quorum_cert"/>
+                <Blob name="highest_ordered_cert"/>
+                <String name="highest_ledger_info" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/>  
+                <Blob name="highest_timeout_cert"/>
+                <Blob name="highest_2chain_timeout_cert"/>  
+            </Block>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!__ P2P_SyncInfo __>
+    <DataModel name="P2P_SyncInfo">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+                <Blob name="header" valueType="hex" value="000000000000" /> 
+                <Number name="id" valueType="hex" value="1" size="4"/>
+            </Block>
+            <Blob name="highest_quorum_cert"/>
+            <Blob name="highest_ordered_cert"/>
+            <String name="highest_ledger_info" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/>  
+            <Blob name="highest_timeout_cert"/>
+            <Blob name="highest_2chain_timeout_cert"/> 
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_HeartBeatResponse __>
+    <DataModel name="P2P_HeartBeatResponse">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Number name="view" valueType="hex" value="1224" size="64"/>
+		    <String name="extra" value="protobuf:'bytes,3,opt,name=digest,proto3' json:'digest,omitempty"/> 
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_HeartBeat __>
+    <DataModel name="P2P_HeartBeat">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Number name="view" valueType="hex" value="1224" size="64"/>
+            <Number name="Seq" valueType="hex" value="41224" size="64"/>
+            <String name="extra" value="protobuf:'bytes,3,opt,name=digest,proto3' json:'digest,omitempty"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_ProposalMsg __>
+    <DataModel name="P2P_ProposalMsg">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="timestamp" value="1646866738"/>
+            <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+            <String name="sig2"/>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+		    </Block>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_BlockRetrievalRequest __>
+    <DataModel name="P2P_BlockRetrievalRequest">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<String name="block_id" value="1646866738"/>
+            <Number name="num_blocks" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="target_block_id" value="1646866738"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_Block __>
+    <DataModel name="P2P_Block">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<String name="block_id" value="1646866738"/>
+            <Blob name="Block_data" size="32" />
+            <String name="sig2"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_EpochRetrievalRequest __>
+    <DataModel name="P2P_EpochRetrievalRequest">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Number name="start_epoch" size="32" valueType="hex" value="0000" signed="false"/>
+        <Number name="end_epoch" size="32" valueType="hex" value="0000" signed="false"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_ExecutedBlock __>
+    <DataModel name="P2P_ExecutedBlock">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="block" size="32" />
+                <String name="block_id" value="1646866738"/>
+                <Blob name="Block_data" size="32" />
+                <String name="sig2"/>
+            </Block>
+            <Blob name="state_compute_result" size="32"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_QuorumCert __>
+    <DataModel name="P2P_QuorumCert">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="votedata" size="32" />
+            </Block>
+            <Block name="signed_ledger_info" size="32" />
+            </Block>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_SafetyData __>
+    <DataModel name="P2P_SafetyData">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+            <Number name="last_voted_round" size="32" valueType="hex" value="0000" signed="false"/>
+            <Number name="preferred_round" size="32" valueType="hex" value="0000" signed="false"/>
+            <Number name="one_chain_round" size="32" valueType="hex" value="0000" signed="false"/>
+            <Blob name="last_vote"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_VoteData __>
+    <DataModel name="P2P_VoteData">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="proposed" size="32" />
+            </Block>
+            <Block name="parent" size="32" />
+            </Block>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_Vote __>
+    <DataModel name="P2P_Vote">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="votedata" size="32">
+                <Block name="proposed" size="32" />
+                </Block>
+                <Block name="parent" size="32" />
+                </Block>
+            </Block>
+            <Blob name="author" value="1646866738"/>
+            <Blob name="ledger_info" value="1646866738"/>
+            <Blob name="signature" value="1646866738"/>
+            <Blob name="timeout_signature" value="1646866738"/>
+            <Block name="two_chain_timeout">
+                <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+                <Blob name="round" value="1646866738"/>
+            </Block>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_VoteProposal __>
+    <DataModel name="P2P_VoteProposa">
+    <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Blob name="accumulator_extension_proof" value="1646866738"/>
+            <Block name="block" size="32">
+                <String name="block_id" value="1646866738"/>
+                <Blob name="Block_data" size="32" />
+                <String name="sig2"/>
+            </Block>
+            <Blob name="next_epoch_state" value="1646866738"/>
+            <Flag name="decoupled_execution" value="1646866738"/>
+        </Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_VoteMsg __>
+    <DataModel name="P2P_VoteMsg">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="2">
+            <Block name="consensus_contents">
+                <Block name="vote" size="32">
+                    <Block name="votedata" size="32">
+                        <Block name="proposed" size="32" />
+                        </Block>
+                        <Block name="parent" size="32" />
+                        </Block>
+                    </Block>
+                    <Blob name="author" value="1646866738"/>
+                    <Blob name="ledger_info" value="1646866738"/>
+                    <Blob name="signature" value="1646866738"/>
+                    <Blob name="timeout_signature" value="1646866738"/>
+                    <Block name="two_chain_timeout">
+                        <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+                        <Blob name="round" value="1646866738"/>
+                    </Block>
+                </Block>
+                <Block name="sync_info" size="32">
+                    <Block name="packet_type">
+                        <Blob name="header" valueType="hex" value="000000000000" /> 
+                        <Number name="id" valueType="hex" value="1" size="4"/>
+                    </Block>
+                    <Blob name="highest_quorum_cert"/>
+                    <Blob name="highest_ordered_cert"/>
+                    <String name="highest_ledger_info" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/>  
+                    <Blob name="highest_timeout_cert"/>
+                    <Blob name="highest_2chain_timeout_cert"/>  
+                </Block>
+            </Block>
+            <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+                <Relation type="size" of="consensus_contents" />
+            </Number>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="timestamp" value="8631313338"/>
+            <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_BlockSync__>
+    <DataModel name="P2P_BlockSync">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="2">
+            <Block name="consensus_contents">
+                <Block name="vote" size="32">
+                    <Block name="votedata" size="32">
+                        <Block name="proposed" size="32" />
+                        </Block>
+                        <Block name="parent" size="32" />
+                        </Block>
+                    </Block>
+                    <Blob name="author" value="1646866738"/>
+                    <Blob name="ledger_info" value="1646866738"/>
+                    <Blob name="signature" value="1646866738"/>
+                    <Blob name="timeout_signature" value="1646866738"/>
+                    <Block name="two_chain_timeout">
+                        <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+                        <Blob name="round" value="1646866738"/>
+                    </Block>
+                </Block>
+                <Block name="sync_info" size="32">
+                    <Block name="packet_type">
+                        <Blob name="header" valueType="hex" value="000000000000" /> 
+                        <Number name="id" valueType="hex" value="1" size="4"/>
+                    </Block>
+                    <Blob name="highest_quorum_cert"/>
+                    <Blob name="highest_ordered_cert"/>
+                    <String name="highest_ledger_info" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/>  
+                    <Blob name="highest_timeout_cert"/>
+                    <Blob name="highest_2chain_timeout_cert"/>  
+                </Block>
+            </Block>
+            <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+                <Relation type="size" of="consensus_contents" />
+            </Number>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="timestamp" value="8631313338"/>
+            <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_CommitVote __>
+    <DataModel name="P2P_CommitVote">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="2">
+            <Block name="consensus_contents">
+                <Block name="vote" size="32">
+                    <Block name="votedata" size="32">
+                        <Block name="proposed" size="32" />
+                        </Block>
+                        <Block name="parent" size="32" />
+                        </Block>
+                    </Block>
+                    <Blob name="author" value="1646866738"/>
+                    <Blob name="ledger_info" value="1646866738"/>
+                    <Blob name="signature" value="1646866738"/>
+                    <Blob name="timeout_signature" value="1646866738"/>
+                    <Block name="two_chain_timeout">
+                        <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+                        <Blob name="round" value="1646866738"/>
+                    </Block>
+                </Block>
+                <Block name="sync_info" size="32">
+                    <Block name="packet_type">
+                        <Blob name="header" valueType="hex" value="000000000000" /> 
+                        <Number name="id" valueType="hex" value="1" size="4"/>
+                    </Block>
+                    <Blob name="highest_quorum_cert"/>
+                    <Blob name="highest_ordered_cert"/>
+                    <String name="highest_ledger_info" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/>  
+                    <Blob name="highest_timeout_cert"/>
+                    <Blob name="highest_2chain_timeout_cert"/>  
+                </Block>
+            </Block>
+            <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+                <Relation type="size" of="consensus_contents" />
+            </Number>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="timestamp" value="8631313338"/>
+            <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+    <!__ P2P_CommitDecision __>
+    <DataModel name="P2P_CommitDecision">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="2">
+            <Block name="consensus_contents">
+                <Block name="vote" size="32">
+                    <Block name="votedata" size="32">
+                        <Block name="proposed" size="32" />
+                        </Block>
+                        <Block name="parent" size="32" />
+                        </Block>
+                    </Block>
+                    <Blob name="author" value="1646866738"/>
+                    <Blob name="ledger_info" value="1646866738"/>
+                    <Blob name="signature" value="1646866738"/>
+                    <Blob name="timeout_signature" value="1646866738"/>
+                    <Block name="two_chain_timeout">
+                        <Number name="epoch" size="32" valueType="hex" value="0000" signed="false"/>
+                        <Blob name="round" value="1646866738"/>
+                    </Block>
+                </Block>
+                <Block name="sync_info" size="32">
+                    <Block name="packet_type">
+                        <Blob name="header" valueType="hex" value="000000000000" /> 
+                        <Number name="id" valueType="hex" value="1" size="4"/>
+                    </Block>
+                    <Blob name="highest_quorum_cert"/>
+                    <Blob name="highest_ordered_cert"/>
+                    <String name="highest_ledger_info" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/>  
+                    <Blob name="highest_timeout_cert"/>
+                    <Blob name="highest_2chain_timeout_cert"/>  
+                </Block>
+            </Block>
+            <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+                <Relation type="size" of="consensus_contents" />
+            </Number>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="timestamp" value="8631313338"/>
+            <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+        </Block>
+    </DataModel>
+
+	<StateModel name="State" initialState="Initial">
+        <State name="Initial">
+                <Action type="output">
+                        <DataModel ref="SyncInfo" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="HeartBeatResponse" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="HeartBeat" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="ProposalMsg" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="BlockRetrievalRequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Block" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="EpochRetrievalRequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="ExecutedBlock" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="QuorumCert" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="SafetyData" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="VoteData" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Vote" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="VoteProposal" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="VoteMsg" />
+                </Action>	
+                
+                <Action type="output">
+                        <DataModel ref="Consensus_SyncInfo" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_HeartBeatResponse" />
+                </Action>	
+                
+                <Action type="output">
+                        <DataModel ref="Consensus_HeartBeat" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_ProposalMsg" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_BlockRetrievalRequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_Block" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_EpochRetrievalRequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_ExecutedBlock" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_QuorumCert" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_SafetyData" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_VoteData" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_Vote" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_VoteProposal" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_VoteMsg" />
+                </Action>	
+
+                <Action type="output">
+                        <DataModel ref="P2P_SyncInfo" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_HeartBeatResponse" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_HeartBeat" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_ProposalMsg" />
+                </Action>
+
+                <Action type="output">
+                        <DataModel ref="P2P_BlockRetrievalRequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_Block" />
+                </Action>
+
+                <Action type="output">
+                        <DataModel ref="P2P_EpochRetrievalRequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_ExecutedBlock" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_QuorumCert" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_SafetyData" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_VoteData" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_Vote" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_VoteProposal" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_VoteMsg" />
+                </Action>	
+
+                <Action type="output">
+                        <DataModel ref="P2P_BlockSync" />
+                </Action>	
+
+                <Action type="output">
+                        <DataModel ref="P2P_CommitVote" />
+                </Action>
+
+                <Action type="output">
+                        <DataModel ref="P2P_CommitDecision" />
+                </Action>
+        </State>
+	</StateModel>	
+	
+    <Agent name="LocalAgent">
+        <Monitor class="Process">
+            <Param name="Executable" value="./diem"/>
+            <Param name="Arguments" value="_c ./config"/>
+        </Monitor>
+    </Agent>
+
+	<Test name="Default">
+		<StateModel ref="State"/>
+        <Agent ref="LocalAgent"/>
+        <Publisher class="TcpClient" name="tcp">
+            <Param name="Host" value="127.0.0.1" />
+            <Param name="Port" value="3000" />
+        </Publisher>
+        <Logger class="File">
+            <Param name="Path" value="Logs"/>
+        </Logger>
+        <Strategy class="Sequential" />
+	</Test>
+	
+	<Run name="DefaultRun">
+		<Test ref="Default" />
+	</Run>
+	
+</Peach>

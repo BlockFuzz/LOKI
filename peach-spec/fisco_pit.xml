@@ -1,0 +1,1395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://phed.org/2008/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://phed.org/2008/Peach /peach/peach.xsd">
+
+	<PythonPath path="c:/code/fuzzers/peach2" />
+	
+	<Import import="Peach" />
+	<Import from="Peach" import="logger" />
+	<Import from="Peach.Mutators" import="*" />
+	<Import from="Peach.Generators.dictionary" import="*" />
+	<Import from="Peach.Generators.data" import="*" />
+	<Import from="Peach.Generators.static" import="*" />
+	<Import from="Peach.Generators.block" import="*" />
+	<Import from="Peach.Generators.incrementor" import="*" />
+	<Import from="Peach.Generators.repeater" import="*" />
+	<Import from="Peach.Generators" import="*" />
+	<Import from="Peach.Transformers" import="*" />
+	<Import from="Peach.Fixups" import="*" />
+	<Import from="Peach.Publishers" import="*" />
+	<Import from="Peach.publisher" import="*" />
+	<Import from="Peach.MutateStrategies" import="*" />
+	
+	<Mutators>
+		<Mutator class="number.NumericalEdgeCaseMutator" />
+		<Mutator class="number.NumericalVarianceMutator" />
+		<Mutator class="number.FiniteRandomNumbersMutator" />
+		<Mutator class="blob.BlobMutator" />
+		<Mutator class="blob.BitFlipperMutator" />
+		<Mutator class="blob.DWORDSliderMutator" />
+		<!-- <Mutator class="datatree.DataTreeRemoveMutator" />
+		<Mutator class="datatree.DataTreeDuplicateMutator" />
+		<Mutator class="datatree.DataTreeSwapNearNodesMutator" /> -->
+		<Mutator class="array.ArrayVarianceMutator" />
+		<Mutator class="array.ArrayNumericalEdgeCasesMutator" />
+		<Mutator class="array.ArrayReverseOrderMutator" />
+		<Mutator class="array.ArrayRandomizeOrderMutator" />
+		<Mutator class="size.SizedVaranceMutator" />
+		<Mutator class="size.SizedNumericalEdgeCasesMutator" />
+		<!-- <Mutator class="string.StringMutator" /> -->
+		<Mutator class="string.XmlW3CMutator"/>
+		<Mutator class="string.PathMutator"/>
+		<Mutator class="string.HostnameMutator"/>
+		<Mutator class="string.FilenameMutator"/>
+		<Mutator class="string.StringCaseMutator" />
+		<!-- <Mutator class="string.UnicodeBomMutator" />
+		<Mutator class="string.UnicodeStringsMutator" />
+		<Mutator class="string.UnicodeBadUtf8Mutator" />
+		<Mutator class="string.UnicodeUtf8ThreeCharMutator" /> -->
+		<Mutator class="string.ValidValuesMutator" />
+	</Mutators>	
+
+	<!--  FISCO-preprepare-->
+	<DataModel name="Preprepare">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="1" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="1646866738"/>
+        <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+        <String name="sig"/>
+        <String name="sig2"/>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+	<!-- Prepare -->
+	<DataModel name="Prepare">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="2" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631336738"/>
+        <String name="blockhash" value="8ff5385e29c156f902b226ff45f91921d231ab3645dd07c000f43b878f88bd47"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+	<!-- Sign -->
+	<DataModel name="Sign">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="3" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+	<!-- Commit -->
+    <DataModel name="Commit">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="4" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+    <!-- View change-->
+    <DataModel name="ViewChange">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="4" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="toview" size="64" valueType="hex" value="1000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+	</DataModel>
+    
+    <!-- NewViewPacket -->
+    <DataModel name="NewViewPacket">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="5" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="old_view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="new_view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+    <!-- CommittedProposalRequest -->
+    <DataModel name="CommittedProposalRequest">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="6" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="proposal">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+    <!-- CommittedProposalResponse -->
+    <DataModel name="CommittedProposalResponse">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="7" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="proposal_response">
+			<Blob name="responseblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+    <!-- PreparedProposalRequest -->
+    <DataModel name="PreparedProposalRequest">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="8" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="prepare_proposal">
+			<Blob name="responseblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+    <!-- PreparedProposalResponse -->
+    <DataModel name="PreparedProposalResponse">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="9" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="prepare_proposal_response">
+			<Blob name="responseblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+    <!-- CheckPoint -->
+    <DataModel name="CheckPoint">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="10" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+    <!-- RecoverRequest -->
+    <DataModel name="RecoverRequest">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="11" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="recover_proposal">
+			<Blob name="proposalblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+    <!-- RecoverResponse -->
+    <DataModel name="RecoverResponse">
+		<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="11" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="recover_proposal">
+			<Blob name="responseblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+	</DataModel>
+
+    <!-- Consensus-preprepare -->
+    <DataModel name="Consensus_preprepare">
+        <Number name="consensus_type" size = "8" value="1">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="1" size="4"/>
+                </Block>
+                <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+                <String name="timestamp" value="1646866738"/>
+                <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+                <String name="sig"/>
+                <String name="sig2"/>
+                <Block name="buffer">
+                    <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                    <Blob name="bufferending" value="00" size="32"/>
+                </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- Consensus-sign -->
+    <DataModel name="Consensus_sign">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="2" size="4"/>
+                </Block>
+                <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+                <String name="timestamp" value="1646866738"/>
+                <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+                <String name="sig"/>
+                <String name="sig2"/>
+                <Block name="buffer">
+                    <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                    <Blob name="bufferending" value="00" size="32"/>
+                </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- Consensus-commit -->
+    <DataModel name="Consensus_commit">
+        <Number name="consensus_type" size = "8" value="1">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="3" size="4"/>
+                </Block>
+                <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+                <String name="timestamp" value="1646866738"/>
+                <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+                <String name="sig"/>
+                <String name="sig2"/>
+                <Block name="buffer">
+                    <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                    <Blob name="bufferending" value="00" size="32"/>
+                </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- Consensus-viewchange -->
+    <DataModel name="Consensus_viewchange">
+        <Number name="consensus_type" size = "8" value="1">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="1" size="4"/>
+                </Block>
+                <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+                <String name="timestamp" value="1646866738"/>
+                <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+                <String name="sig"/>
+                <String name="sig2"/>
+                <Block name="buffer">
+                    <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                    <Blob name="bufferending" value="00" size="32"/>
+                </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- Consensus-NewViewPacket -->
+    <DataModel name="Consensus_newview">
+        <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+                <Blob name="header" valueType="hex" value="000000000000" /> 
+                <Number name="id" valueType="hex" value="5" size="4"/>
+            </Block>
+            <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="old_view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="new_view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="timestamp" value="8631313338"/>
+            <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+            <String name="sig2" size="80"/>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- Consensus-CommittedProposalRequest -->
+    <DataModel name="Consensus_committedproposalrequest">
+        <Number name="consensus_type" size = "8" value="3">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="7" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="proposal_response">
+			<Blob name="responseblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+	
+    <!-- Consensus-CommittedProposalResponse -->
+    <DataModel name="Consensus_committedproposalresponse">
+        <Number name="consensus_type" size = "8" value="3">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="7" size="4"/>
+            </Block>
+            <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+            <String name="timestamp" value="8631313338"/>
+            <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+            <String name="sig2" size="80"/>
+            <Block name="proposal_response">
+                <Blob name="responseblob" value="ffffffffffff" size="64"/> 
+                <Blob name="proposalending" value="00" size="32"/>
+            </Block>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- Consensus-PreparedProposalRequest -->
+    <DataModel name="Consensus_preparedproposalrequest">
+        <Number name="consensus_type" size = "8" value="4">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="8" size="4"/>
+            </Block>
+            <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+            <String name="timestamp" value="8631313338"/>
+            <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+            <String name="sig2" size="80"/>
+            <Block name="prepare_proposal">
+                <Blob name="responseblob" value="ffffffffffff" size="64"/> 
+                <Blob name="proposalending" value="00" size="32"/>
+            </Block>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- Consensus-PreparedProposalResponse -->
+    <DataModel name="Consensus_preparedproposalresponse">
+        <Number name="consensus_type" size = "8" value="4">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="9" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="prepare_proposal_response">
+			<Blob name="responseblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- Consensus-CheckPoint -->
+    <DataModel name="Consensus_checkpoint">
+        <Number name="consensus_type" size = "8" value="5">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="10" size="4"/>
+            </Block>
+            <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="timestamp" value="8631313338"/>
+            <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+            <String name="sig2" size="80"/>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- Consensus-RecoverRequest -->
+    <DataModel name="Consensus_recoverrequest">
+        <Number name="consensus_type" size = "8" value="6">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="11" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="recover_proposal">
+			<Blob name="proposalblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+     <!-- Consensus-RecoverResponse -->
+    <DataModel name="Consensus_recoverresponse">
+        <Number name="consensus_type" size = "8" value="6">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="11" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="recover_proposal_response">
+			<Blob name="responseblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-preprepare -->
+    <DataModel name="P2P_preprepare">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+			<Number name="consensus_type" size = "8" value="1">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="1" size="4"/>
+                </Block>
+                <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+                <String name="timestamp" value="1646866738"/>
+                <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+                <String name="sig"/>
+                <String name="sig2"/>
+                <Block name="buffer">
+                    <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                    <Blob name="bufferending" value="00" size="32"/>
+                </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+		</Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-sign -->
+    <DataModel name="P2P_sign">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+			<Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="2" size="4"/>
+                </Block>
+                <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+                <String name="timestamp" value="1646866738"/>
+                <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+                <String name="sig"/>
+                <String name="sig2"/>
+                <Block name="buffer">
+                    <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                    <Blob name="bufferending" value="00" size="32"/>
+                </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+		</Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-commit -->
+     <DataModel name="P2P_commit">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+			<Number name="consensus_type" size = "8" value="1">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="3" size="4"/>
+                </Block>
+                <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+                <String name="timestamp" value="1646866738"/>
+                <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+                <String name="sig"/>
+                <String name="sig2"/>
+                <Block name="buffer">
+                    <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                    <Blob name="bufferending" value="00" size="32"/>
+                </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+		</Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-viewchange -->
+    <DataModel name="P2P_viewchange">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="1">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="1" size="4"/>
+                </Block>
+                <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+                <String name="timestamp" value="1646866738"/>
+                <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+                <String name="sig"/>
+                <String name="sig2"/>
+                <Block name="buffer">
+                    <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                    <Blob name="bufferending" value="00" size="32"/>
+                </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+		</Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-NewViewPacket -->
+    <DataModel name="P2P_newviewpacket">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+                <Blob name="header" valueType="hex" value="000000000000" /> 
+                <Number name="id" valueType="hex" value="5" size="4"/>
+            </Block>
+            <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="old_view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="new_view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="timestamp" value="8631313338"/>
+            <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+            <String name="sig2" size="80"/>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-CommittedProposalRequest -->
+    <DataModel name="P2P_committedproposalrequest">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="3">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="7" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="proposal_response">
+			<Blob name="responseblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-CommittedProposalResponse -->
+    <DataModel name="P2P_committedproposalresponse">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="3">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="7" size="4"/>
+            </Block>
+            <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+            <String name="timestamp" value="8631313338"/>
+            <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+            <String name="sig2" size="80"/>
+            <Block name="proposal_response">
+                <Blob name="responseblob" value="ffffffffffff" size="64"/> 
+                <Blob name="proposalending" value="00" size="32"/>
+            </Block>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-PreparedProposalRequest -->
+    <DataModel name="P2P_preparedproposalrequest">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="4">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="8" size="4"/>
+            </Block>
+            <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+            <String name="timestamp" value="8631313338"/>
+            <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+            <String name="sig2" size="80"/>
+            <Block name="prepare_proposal">
+                <Blob name="responseblob" value="ffffffffffff" size="64"/> 
+                <Blob name="proposalending" value="00" size="32"/>
+            </Block>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-PreparedProposalResponse -->
+    <DataModel name="P2P_preparedproposalresponse">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="4">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="9" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="prepare_proposal_response">
+			<Blob name="responseblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+	
+    <!-- P2P-CheckPoint -->
+    <DataModel name="P2P_checkpoint">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="5">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="10" size="4"/>
+            </Block>
+            <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+            <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+            <String name="timestamp" value="8631313338"/>
+            <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+            <String name="sig" size="80"/>
+            <String name="sig2" size="80"/>
+            <Block name="buffer">
+                <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                <Blob name="bufferending" value="00" size="32"/>
+            </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-RecoverRequest -->
+    <DataModel name="P2P_recoverrequest">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="6">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="11" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="recover_proposal">
+			<Blob name="proposalblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+    <!-- P2P-RecoverResponse -->
+    <DataModel name="P2P_recoverresponse">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+            <Number name="consensus_type" size = "8" value="6">
+        <Block name="consensus_contents">
+            <Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="11" size="4"/>
+		</Block>
+        <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+        <String name="timestamp" value="8631313338"/>
+        <String name="blockhash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        <String name="sig2" size="80"/>
+        <Block name="recover_proposal_response">
+			<Blob name="responseblob" value="ffffffffffff" size="64"/> 
+			<Blob name="proposalending" value="00" size="32"/>
+		</Block>
+		<Block name="buffer">
+			<Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+			<Blob name="bufferending" value="00" size="32"/>
+		</Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+        </Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+	<StateModel name="State" initialState="Initial">
+        <State name="Initial">
+                <Action type="output">
+                        <DataModel ref="Prepare" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Sign" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Commit" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Viewchange" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="NewViewPacket" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="CommittedProposalRequest" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="CommittedProposalResponse" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="PreparedProposalRequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="PreparedProposalResponse" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="CheckPoint" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="RecoverRequest" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="RecoverResponse" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_prepare" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_sign" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_commit" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_viewchange" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_newview" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_committedproposalrequest" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_committedproposalresponse" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_preparedproposalrequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Consensus_preparedproposalresponse" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_checkpoint" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_recoverrequest" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="Consensus_recoverresponse" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_prepare" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_sign" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_commit" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_viewchange" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_newview" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_committedproposalrequest" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_committedproposalresponse" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_preparedproposalrequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="P2P_preparedproposalresponse" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_checkpoint" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_recoverrequest" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="P2P_recoverresponse" />
+                </Action>		
+        </State>
+	</StateModel>	
+	
+    <Agent name="LocalAgent">
+        <Monitor class="Process">
+            <Param name="Executable" value="/root/FISCO_EXPERIMENT/FISCO-BCOS0/build/bin/fisco-bcos"/>
+            <Param name="Arguments" value="-c /root/FISCO_EXPERIMENT/fisco/nodes/127.0.0.1/node2/config.ini"/>
+        </Monitor>
+    </Agent>
+
+	<Test name="Default">
+		<StateModel ref="State"/>
+        <Agent ref="LocalAgent"/>
+        <Publisher class="TcpClient" name="tcp">
+            <Param name="Host" value="127.0.0.1" />
+            <Param name="Port" value="30302" />
+        </Publisher>
+        <Logger class="File">
+            <Param name="Path" value="Logs"/>
+        </Logger>
+        <Strategy class="Sequential" />
+	</Test>
+	
+	<Run name="DefaultRun">
+		<Test ref="Default" />
+	</Run>
+	
+</Peach>

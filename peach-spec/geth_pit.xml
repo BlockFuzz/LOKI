@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://phed.org/2008/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://phed.org/2008/Peach /peach/peach.xsd">
+
+	<PythonPath path="c:/code/fuzzers/peach2" />
+	
+	<Import import="Peach" />
+	<Import from="Peach" import="logger" />
+	<Import from="Peach.Mutators" import="*" />
+	<Import from="Peach.Generators.dictionary" import="*" />
+	<Import from="Peach.Generators.data" import="*" />
+	<Import from="Peach.Generators.static" import="*" />
+	<Import from="Peach.Generators.block" import="*" />
+	<Import from="Peach.Generators.incrementor" import="*" />
+	<Import from="Peach.Generators.repeater" import="*" />
+	<Import from="Peach.Generators" import="*" />
+	<Import from="Peach.Transformers" import="*" />
+	<Import from="Peach.Fixups" import="*" />
+	<Import from="Peach.Publishers" import="*" />
+	<Import from="Peach.publisher" import="*" />
+	<Import from="Peach.MutateStrategies" import="*" />
+	
+	<Mutators>
+		<Mutator class="number.NumericalEdgeCaseMutator" />
+		<Mutator class="number.NumericalVarianceMutator" />
+		<Mutator class="number.FiniteRandomNumbersMutator" />
+		<Mutator class="blob.BlobMutator" />
+		<Mutator class="blob.BitFlipperMutator" />
+		<Mutator class="blob.DWORDSliderMutator" />
+		<!-- <Mutator class="datatree.DataTreeRemoveMutator" />
+		<Mutator class="datatree.DataTreeDuplicateMutator" />
+		<Mutator class="datatree.DataTreeSwapNearNodesMutator" /> -->
+		<Mutator class="array.ArrayVarianceMutator" />
+		<Mutator class="array.ArrayNumericalEdgeCasesMutator" />
+		<Mutator class="array.ArrayReverseOrderMutator" />
+		<Mutator class="array.ArrayRandomizeOrderMutator" />
+		<Mutator class="size.SizedVaranceMutator" />
+		<Mutator class="size.SizedNumericalEdgeCasesMutator" />
+		<!-- <Mutator class="string.StringMutator" /> -->
+		<Mutator class="string.XmlW3CMutator"/>
+		<Mutator class="string.PathMutator"/>
+		<Mutator class="string.HostnameMutator"/>
+		<Mutator class="string.FilenameMutator"/>
+		<Mutator class="string.StringCaseMutator" />
+		<!-- <Mutator class="string.UnicodeBomMutator" />
+		<Mutator class="string.UnicodeStringsMutator" />
+		<Mutator class="string.UnicodeBadUtf8Mutator" />
+		<Mutator class="string.UnicodeUtf8ThreeCharMutator" /> -->
+		<Mutator class="string.ValidValuesMutator" />
+	</Mutators>	
+
+
+	<!-- Messages -->
+
+
+	<DataModel name="GetBlockHeadersMsg">
+
+		<Number name="ProtocolVersion"  size="32" value="311">
+		<Number name="NetworkID"  size="64" value="10086">
+		<String name="TD"  value="12342142309785320800"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<String name="Genesis" size="32" value="ffffffffffffffffffffffffffffffff" />
+			
+		<Block name="ForkID">
+			<String name="Hash" size="4" value="0xff" />
+			<Number name="Next"  size="64" value="21">
+
+		</Block>
+
+	</DataModel>
+
+
+	<DataModel name="NewBlockMsg">
+		<Block name="Block">
+
+			<Block name="Header">
+				<String name="ParentHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="UncleHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="Coinbase" size="20" value="00000000000000000000" />
+				<String name="Root" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="TxHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="ReceiptHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="Difficulty"  value="0x1311231" />
+				<String name="Number"  value="0x1311231" />
+				<Number name="GasLimit" size="32" valueType="hex" value="45" signed="false" />
+				<Number name="GasUsed" size="32" valueType="hex" value="45" signed="false" />
+				<Number name="Time" size="32" valueType="hex" value="45" signed="false" />
+				<String name="Extra"  value="this is extra information" />
+				<String name="MixDigest" size="32" value="ffffffffffffffffffffffffffffffff" />
+			</Block>
+
+			<Blob name="uncles" valueType="hex" value="000000000000" /> 
+
+			<Block name="Transactions">
+
+				<Block name="TxData">
+					<String name="txtype"  size="4" value="3"  />
+					<String name="txdata"  value="this is a txdata"  />
+					<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+					<Number name="nonce" size="64" valueType="hex" value="111" signed="false" />
+					<String name="gasProce"  value="1000000000"  />
+
+				</Block>
+
+				<String name="time"  value="2022-01-01"  />
+				<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+				<String name="from"  value="2022-01-03"  />
+
+			</Block>
+
+			<Blob name="transactions" valueType="hex" value="1" />
+			<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+			<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+			<String name="TD"  value="12342142309785320800"  />
+			<String name="ReceivedAt"  value="2022-01-01"  />
+			<String name="ReceivedFrom"  value="2022-01-03"  />
+
+		</Block>
+
+		<String name="TD"  value="12342142309785320800"  />
+
+	</DataModel>
+
+
+
+
+	<DataModel name="NewBlockHashesMsg">
+
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="64" valueType="hex" value="1245" signed="false" />
+			
+			<Relation type="size" of="NewBlockMsg" />
+
+	</DataModel>
+
+	<DataModel name="GetBlockHeadersMsg">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+		<Block name="BlockHeaderPacket">
+
+			<Block name="HashOrNumber">
+				<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<Number name="Number" size="64" valueType="hex" value="1245" signed="false" />
+		
+			</Block>
+
+			<Number name="Amount" size="64" valueType="hex" value="1245" signed="false" />
+			<Number name="Skip" size="64" valueType="hex" value="1245" signed="false" />
+			<Flag name="Reverse"/>
+		
+		</Block>
+
+
+	</DataModel>
+
+
+
+	<DataModel name="Transactions">
+
+		<Block name="TxData">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+			<Number name="nonce" size="64" valueType="hex" value="111" signed="false" />
+			<String name="gasProce"  value="1000000000"  />
+
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+
+	<DataModel name="NewPooledTransactionHashesMsgs">
+
+		<Block name="NewPooledTransactionHashesPacket">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+			<Number name="nonce" size="64" valueType="hex" value="111" signed="false" />
+			<String name="gasProce"  value="1000000000"  />
+
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+
+	<DataModel name="BlockHeadersMsgs">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+
+		<Block name="BlockHeadersPacket">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+
+			<Block name="Header">
+				<String name="ParentHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="UncleHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="Coinbase" size="20" value="00000000000000000000" />
+				<String name="Root" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="TxHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="ReceiptHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="Difficulty"  value="0x1311231" />
+				<String name="Number"  value="0x1311231" />
+				<Number name="GasLimit" size="32" valueType="hex" value="45" signed="false" />
+				<Number name="GasUsed" size="32" valueType="hex" value="45" signed="false" />
+				<Number name="Time" size="32" valueType="hex" value="45" signed="false" />
+				<String name="Extra"  value="this is extra information" />
+				<String name="MixDigest" size="32" value="ffffffffffffffffffffffffffffffff" />
+			</Block>
+
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+
+	<DataModel name="GetBlockBodiesMsgs">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+
+		<Block name="GetBlockBodiesPacket">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+
+			<String name="content" value="" />
+
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+	
+
+	<DataModel name="BlockBodiesMsgs">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+
+		<Block name="BlockBodiesRLPPacket">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+
+			<Block name="Header">
+				<String name="ParentHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="UncleHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="Coinbase" size="20" value="00000000000000000000" />
+				<String name="Root" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="TxHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="ReceiptHash" size="32" value="ffffffffffffffffffffffffffffffff" />
+				<String name="Difficulty"  value="0x1311231" />
+				<String name="Number"  value="0x1311231" />
+				<Number name="GasLimit" size="32" valueType="hex" value="45" signed="false" />
+				<Number name="GasUsed" size="32" valueType="hex" value="45" signed="false" />
+				<Number name="Time" size="32" valueType="hex" value="45" signed="false" />
+				<String name="Extra"  value="this is extra information" />
+				<String name="MixDigest" size="32" value="ffffffffffffffffffffffffffffffff" />
+			</Block>
+
+		</Block>
+
+		<String name="content" value="" />
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+
+	<DataModel name="GetNodeDataMsgs">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+
+		<Block name="GetNodeDataPacket">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+
+			<String name="content" value="" />
+
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+
+	<DataModel name="NodeDataMsgs">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+
+		<Block name="NodeDataPacket">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+
+			<String name="content" value="" />
+
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+
+	<DataModel name="GetReceiptsMsgs">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+
+		<Block name="GetReceiptsPacket">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+
+			<String name="content" value="" />
+
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+	<DataModel name="ReceiptsMsgs">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+
+		<Block name="ReceiptsRLPPacket">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+
+			<String name="content" value="" />
+
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+
+	<DataModel name="GetPooledTransactionsMsgs">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+
+		<Block name="GetPooledTransactionsPacket">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+
+			<String name="content" value="" />
+
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+	
+	
+	<DataModel name="PooledTransactionsMsgs">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+
+		<Block name="PooledTransactionsRLPPacket">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+
+			<String name="content" value="" />
+
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+
+	<DataModel name="NewPeer">
+
+		<Number name="peerID" size="32" valueType="hex" value="101" signed="false" />
+		
+		<Number name="ip_version" size="8" valueType="hex" value="45" signed="false" />
+		<Block name="ip_dsfield">
+			<Flags name="ip_dsfield" size="8">
+				<Flag name="ip_dsfield_dscp" position="0" size="6" />
+				<Flag name="ip_dsfield_ecn" position="6" size="2" />
+			</Flags>
+		</Block>
+		<Number name="ip_len" size="16" valueType="hex" value="0148" signed="true" endian="big" />
+		<Number name="ip_id" size="16" valueType="hex" value="0000" signed="false" />
+		<Block name="ip_flags">
+			<Flags name="ip_flags" size="4">
+				<Flag name="ip_flags_rb" position="0" size="1" />
+				<Flag name="ip_flags_df" position="1" size="1" />
+				<Flag name="ip_flags_mf" position="2" size="1" />
+			</Flags>
+		</Block>
+		<Number name="ip_frag_offset" size="16" valueType="hex" value="0000" signed="false" />
+		<Number name="ip_ttl" size="8" valueType="hex" value="80" signed="false" />
+		<Number name="ip_proto" size="8" valueType="hex" value="11" signed="false" />
+		]
+		
+
+		<String name="ip_src" value="0.0.0.0"> 
+
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="ip_dst" value="255.255.255.255"> 
+
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+	</DataModel>
+
+
+
+	<!-- P2P-sign -->
+    <DataModel name="P2P_sign">
+        <Number name="p2p_type" size = "8" value="1">
+        <Block name="p2p_contents">
+			<Number name="consensus_type" size = "8" value="2">
+        <Block name="consensus_contents">
+			<Block name="packet_type">
+			<Blob name="header" valueType="hex" value="000000000000" /> 
+			<Number name="id" valueType="hex" value="2" size="4"/>
+                </Block>
+                <Number name="height" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="view" size="64" valueType="hex" value="0000" signed="false"/>
+                <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+                <String name="timestamp" value="1646866738"/>
+                <String name="blockhash" value="349c41201b62db851192665c504b350ff98c6b45fb62a8a2161f78b6534d8de9"/> 
+                <String name="sig"/>
+                <String name="sig2"/>
+                <Block name="buffer">
+                    <Blob name="bufferblob" value="ffffffffffff" size="64"/> 
+                    <Blob name="bufferending" value="00" size="32"/>
+                </Block>
+		</Block>
+        <Number name="content_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="consensus_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+		</Block>
+        <Number name="p2p_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="p2p_contents" />
+		</Number>
+        <Number name="idx" size="32" valueType="hex" value="0000" signed="false"/>
+        <String name="timestamp" value="8631313338"/>
+        <String name="hash" value="2d55e12ac0daf03d17f4ba299061b0965ca01dadfa8fa46ab4e319ec655173f9"/> 
+        <String name="sig" size="80"/>
+    </DataModel>
+
+
+
+	<DataModel name="addressesByHeartbeat">
+
+		<Number name="RequestId"  size="64" value="102311">
+
+
+		<Block name="address">
+			<String name="txtype"  size="4" value="3"  />
+			<String name="txdata"  value="this is a txdata"  />
+			<Number name="gas" size="64" valueType="hex" value="101" signed="false" />
+
+			<String name="content" value="" />
+
+		</Block>
+
+		<Block name="heartbeat">
+			<number name="wall" size="64" value="999999999"/>
+			<number name="exit" size="64" value="1"/>
+
+			<Block name="loc">
+				<String name="name" value="The USA"/>
+
+				<Block name="zone">
+					<String name="name" value="CET"/>
+					<Number name="offset" size="32" value="3"/>
+					<Flag name="isDST" value="0"/>
+				</Block>
+
+				<Block name="tx">
+					<Number name="when" size="64" value="1646877775"/>
+					<Number name="index" size="8" value="2"/>
+					<Flag name="isstd" value="0"/>
+					<Flag name="isutc" value="1"/>
+
+				</Block>
+
+
+				<String name="extend" value="PST8PDT,M3.2.0,M11.1.0"/>
+
+				<String name="cacheStart" size="64" value=" January 1, 1970 UTC"/>
+				<String name="cacheEnd" size="64" value=" January 1, 2021 UTC"/>
+
+				<Block name="cacheZone">
+					<String name="name" value="CET"/>
+					<Number name="offset" size="32" value="3"/>
+					<Flag name="isDST" value="0"/>
+
+				</Block>
+
+
+			</Block>
+		</Block>
+
+		<String name="time"  value="2022-01-01"  />
+		<String name="Hash" size="32" value="ffffffffffffffffffffffffffffffff" />
+		<Number name="size" size="32" valueType="hex" value="1245" signed="false" />
+		<String name="from"  value="2022-01-03"  />
+
+	</DataModel>
+
+
+
+
+	<!--  Ethernet-->
+	<DataModel name="Eth">
+		<Block name="eth_dst">
+			<Blob name="eth_addr" valueType="hex" value="000000000000" /> <!-- Change this to your client MAC addr -->
+			<Blob name="eth_ig" valueType="hex" value="1" />
+		</Block>
+		<Block name="eth_src">
+			<Blob name="eth_addr" valueType="hex" value="ffffffffffff" /> <!-- Change this if you run more than one DHCP server -->
+			<Blob name="eth_ig" valueType="hex" value="0" />
+		</Block>
+		<Number name="eth_type" size="16" valueType="hex" value="0800" signed="false" />
+	</DataModel>
+	<!-- IP -->
+	<DataModel name="Ip">
+		<Number name="ip_version" size="8" valueType="hex" value="45" signed="false" />
+		<Block name="ip_dsfield">
+			<Flags name="ip_dsfield" size="8">
+				<Flag name="ip_dsfield_dscp" position="0" size="6" />
+				<Flag name="ip_dsfield_ecn" position="6" size="2" />
+			</Flags>
+		</Block>
+		<Number name="ip_len" size="16" valueType="hex" value="0148" signed="true" endian="big" />
+		<Number name="ip_id" size="16" valueType="hex" value="0000" signed="false" />
+		<Block name="ip_flags">
+			<Flags name="ip_flags" size="4">
+				<Flag name="ip_flags_rb" position="0" size="1" />
+				<Flag name="ip_flags_df" position="1" size="1" />
+				<Flag name="ip_flags_mf" position="2" size="1" />
+			</Flags>
+		</Block>
+		<Number name="ip_frag_offset" size="16" valueType="hex" value="0000" signed="false" />
+		<Number name="ip_ttl" size="8" valueType="hex" value="80" signed="false" />
+		<Number name="ip_proto" size="8" valueType="hex" value="11" signed="false" />
+		
+
+		<!-- 
+		Commenting this out so a new checksum is generated for each packet
+		<Block name="ip_checksum">
+			<Number name="ip_checksum_good" size="16" valueType="hex" value="3996" signed="false" endian="big" /> 
+		</Block> -->
+
+
+		<String name="ip_src" value="0.0.0.0"> 
+			<!-- Change this if you run more than one DHCP server -->
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		
+
+		<String name="ip_dst" value="255.255.255.255"> <!-- Change this if you run more than one DHCP server -->
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+	
+	</DataModel>
+	
+
+
+	<!-- UDP -->
+	<DataModel name="Udp">
+		<Number name="udp_srcport" size="16" valueType="hex" value="0044" signed="true" endian="big" />
+		<Number name="udp_dstport" size="16" valueType="hex" value="0043" signed="true" endian="big" />
+		<Number name="udp_port" size="16" valueType="hex" value="0044" signed="true" endian="big" />
+		<Number name="udp_port" size="16" valueType="hex" value="0043" signed="true" endian="big" />
+		<Number name="udp_length" size="16" valueType="hex" value="0134" signed="true" endian="big" />
+		<Block name="udp_checksum">
+			<Number name="udp_checksum_good" size="16" valueType="hex" value="b040" signed="false" endian="big" />
+		</Block>
+	</DataModel>	
+	
+
+	<!-- DHCP -->
+	<DataModel name="discover">
+		<Number name="bootp_type" size="8" valueType="hex" value="01" signed="false" />
+		<Number name="bootp_hw_type" size="8" valueType="hex" value="01" signed="false" />
+		<Number name="bootp_hw_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="bootp_hw_mac_addr" />
+		</Number>
+		<Number name="bootp_hops" size="8" valueType="hex" value="00" signed="false" />
+		<Number name="bootp_id" size="32" valueType="hex" value="d0a96d32" signed="false" />
+		<Number name="bootp_secs" size="16" valueType="hex" value="0000" signed="false" />
+		<Block name="bootp_flags">
+			<Flags name="bootp_flags" size="16">
+				<Flag name="bootp_flags_bc" position="0" size="1" />
+				<Flag name="bootp_flags_reserved" position="1" size="15" />
+			</Flags>
+		</Block>
+		<String name="bootp_ip_client" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_your" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_server" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_relay" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		
+		<Blob name="bootp_hw_mac_addr" valueType="hex" value="000000000000" /> <!-- Change this to your client MAC addr -->
+		
+		<String name="bootp_hw_addr_padding" type="wchar" length="5" valueType="hex" value="00000000000000000000" />
+		
+		<String name="bootp_server" type="wchar" length="32" valueType="hex" value="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		
+		<String name="bootp_file" type="wchar" length="64" valueType="hex" value="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		
+		<String name="bootp_cookie" value="99.130.83.99">
+			<Transformer class="encode.Ipv4StringToOctet" />
+		</String>
+		
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="35" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="01" signed="false" />
+			<Number name="bootp_option_value" size="8" valueType="hex" value="01" signed="false" />
+		</Block>
+		
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="32" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="04" signed="false" />
+			<Blob name="bootp_option_value" valueType="hex" value="c0a82583" />
+		</Block>
+		
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="37" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="0d" signed="false" />
+			<Number  size="8" valueType="hex" value="01" signed="false" />
+			<Number  size="8" valueType="hex" value="1c" signed="false" />
+			<Number  size="8" valueType="hex" value="02" signed="false" />
+			<Number  size="8" valueType="hex" value="79" signed="false" />
+			<Number  size="8" valueType="hex" value="0f" signed="false" />
+			<Number  size="8" valueType="hex" value="06" signed="false" />
+			<Number  size="8" valueType="hex" value="0c" signed="false" />
+			<Number  size="8" valueType="hex" value="28" signed="false" />
+			<Number  size="8" valueType="hex" value="29" signed="false" />
+			<Number  size="8" valueType="hex" value="2a" signed="false" />
+			<Number  size="8" valueType="hex" value="1a" signed="false" />
+			<Number  size="8" valueType="hex" value="77" signed="false" />
+			<Number  size="8" valueType="hex" value="03" signed="false" />
+		</Block>
+		<Number  size="8" valueType="hex" value="ff" signed="false" />
+		<String  valueType="hex" value="0000000000000000000000000000000000000000000000000000000000000000000000" length="35" />
+	</DataModel>
+	
+	<DataModel name="request">
+		<Number name="bootp_type" size="8" valueType="hex" value="01" signed="false" />
+		<Number name="bootp_hw_type" size="8" valueType="hex" value="01" signed="false" />
+		<Number name="bootp_hw_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="bootp_hw_mac_addr" />
+		</Number>
+		<Number name="bootp_hops" size="8" valueType="hex" value="00" signed="false" />
+		<Number name="bootp_id" size="32" valueType="hex" value="d0a96d32" signed="false" />
+		<Number name="bootp_secs" size="16" valueType="hex" value="0000" signed="false" />
+		<Block name="bootp_flags">
+			<Flags name="bootp_flags" size="16">
+				<Flag name="bootp_flags_bc" position="0" size="1" />
+				<Flag name="bootp_flags_reserved" position="1" size="15" />
+			</Flags>
+		</Block>
+		<String name="bootp_ip_client" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_your" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_server" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_relay" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<Blob name="bootp_hw_mac_addr" valueType="hex" value="000c29db505e" />
+		
+		<String name="bootp_hw_addr_padding" type="wchar" length="5" valueType="hex" value="00000000000000000000" />
+		
+		<String name="bootp_server" type="wchar" length="32" valueType="hex" value="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		
+		<String name="bootp_file" type="wchar" length="64" valueType="hex" value="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		
+		<String name="bootp_cookie" value="99.130.83.99">
+			<Transformer class="encode.Ipv4StringToOctet" />
+		</String>
+		
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="35" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="01" signed="false" />
+			<Number name="bootp_option_value" size="8" valueType="hex" value="03" signed="false" />
+		</Block>
+		
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="36" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="04" signed="false" />
+			<Blob name="bootp_option_value" valueType="hex" value="c0a825fe" />
+		</Block>
+		
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="32" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="04" signed="false" />
+			<Blob name="bootp_option_value" valueType="hex" value="c0a82583" />
+		</Block>
+		
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="37" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="0d" signed="false" />
+			<Number  size="8" valueType="hex" value="01" signed="false" />
+			<Number  size="8" valueType="hex" value="1c" signed="false" />
+			<Number  size="8" valueType="hex" value="02" signed="false" />
+			<Number  size="8" valueType="hex" value="79" signed="false" />
+			<Number  size="8" valueType="hex" value="0f" signed="false" />
+			<Number  size="8" valueType="hex" value="06" signed="false" />
+			<Number  size="8" valueType="hex" value="0c" signed="false" />
+			<Number  size="8" valueType="hex" value="28" signed="false" />
+			<Number  size="8" valueType="hex" value="29" signed="false" />
+			<Number  size="8" valueType="hex" value="2a" signed="false" />
+			<Number  size="8" valueType="hex" value="1a" signed="false" />
+			<Number  size="8" valueType="hex" value="77" signed="false" />
+			<Number  size="8" valueType="hex" value="03" signed="false" />
+		</Block>
+		<Number  size="8" valueType="hex" value="ff" signed="false" />
+		<String  valueType="hex" value="0000000000000000000000000000000000000000000000000000000000" length="29" />
+	</DataModel>
+	
+	<DataModel name="query">
+		<Number name="bootp_hw_type" size="8" valueType="hex" value="01" signed="false" />
+		<Number name="bootp_hw_len" size="8" valueType="hex" value="06" signed="false">
+			<Relation type="size" of="bootp_hw_mac_addr" />
+		</Number>
+		<Blob name="bootp_hw_mac_addr" valueType="hex" value="000c29db505e" />
+		<Number name="bootp_hops" size="8" valueType="hex" value="00" signed="false" />
+		<Number name="bootp_id" size="32" valueType="hex" value="d0a96d32" signed="false" />
+		<Number name="bootp_secs" size="16" valueType="hex" value="0000" signed="false" />
+		<Block name="bootp_flags">
+			<Flags name="bootp_flags" size="16">
+				<Flag name="bootp_flags_bc" position="0" size="1" />
+				<Flag name="bootp_flags_reserved" position="1" size="15" />
+			</Flags>
+		</Block>
+		<String name="bootp_ip_client" value="1.1.1.2">
+			<Transformer class="encode.Ipv4StringToOctet" />
+		</String>
+		<String name="bootp_ip_your" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_server" value="0.0.0.0">
+			<Transformer class="encode.Ipv4StringToNetworkOctet" />
+		</String>
+		<String name="bootp_ip_relay" value="10.10.39.14">
+			<Transformer class="encode.Ipv4StringToOctet" />
+		</String>
+		<String  type="wchar" length="8" valueType="hex" value="00000000000000000000000000000000" />
+		<String name="bootp_server" type="wchar" length="32" valueType="hex" value="00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		
+		<String name="bootp_file" type="wchar" length="64" valueType="hex" value="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" />
+		
+		<String name="bootp_cookie" value="99.130.83.99">
+			<Transformer class="encode.Ipv4StringToOctet" />
+		</String>
+		
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="37" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="04" signed="false" />
+			<Number  size="8" valueType="hex" value="33" signed="false" />
+			<Number  size="8" valueType="hex" value="36" signed="false" />
+			<Number  size="8" valueType="hex" value="3d" signed="false" />
+			<Number  size="8" valueType="hex" value="52" signed="false" />
+		</Block>
+		<Block >
+			<Number name="bootp_option_type" size="8" valueType="hex" value="35" signed="false" />
+			<Number name="bootp_option_length" size="8" valueType="hex" value="01" signed="false" />
+			<Blob name="bootp_option_value" valueType="hex" value="0a" />
+		</Block>
+		<Number  size="8" valueType="hex" value="ff" signed="false" />
+	</DataModel>
+
+	<StateModel name="State" initialState="Initial">
+        <State name="Initial">
+                <Action type="output">
+                        <DataModel ref="StatusMsgs" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="GetBlockHeadersMsg" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="NewBlockMsgs" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="NewBlockHashesMsgs" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="TransactionsMsgs" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="NewPooledTransactionHashesMsgs" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="BlockHeadersMsgs" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="GetBlockBodiesMsgs" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="BlockBodiesMsgs" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="GetNodeDataMsgs" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="NodeDataMsgs" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="GetReceiptsMsgs" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="ReceiptsMsgs" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="GetPooledTransactionsMsgs" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="PooledTransactionsMsgs" />
+                </Action>	
+
+
+                <Action type="output">
+                        <DataModel ref="P2P_sign" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="ETH" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="Ip" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="UDP" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="discover" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="request" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="query" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="state" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="block" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="header" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="blocks" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="headers" />
+                </Action>	
+                
+
+        </State>
+
+	
+	<DataModel name="dhcpdiscover">
+		<Block ref="Eth" />
+		<Block ref="Ip" />
+		<Block ref="Udp" />
+		<Block ref="discover" />
+	</DataModel>
+	<DataModel name="dhcprequest">
+		<Block ref="Eth" />
+		<Block ref="Ip" />
+		<Block ref="Udp" />
+		<Block ref="request" />
+	</DataModel>
+	<DataModel name="dhcpquery">
+		<Block ref="Eth" />
+		<Block ref="Ip" />
+		<Block ref="Udp" />
+		<Block ref="query" />
+	</DataModel>
+	
+	<StateModel name="State" initialState="Initial">
+        <State name="Initial">
+                <Action type="output">
+                        <DataModel ref="dhcpdiscover" />
+                </Action>
+                <Action type="output">
+                        <DataModel ref="dhcprequest" />
+                </Action>	
+                <Action type="output">
+                        <DataModel ref="dhcpquery" />
+                </Action>				
+        </State>
+	</StateModel>	
+
+
+	<Agent name="LinAgent" > 
+    	<Monitor class="Process">
+            <Param name="Executable" value="/root/projects/mosquitto-pc-guard/src/mosquitto" />
+            <Param name="Arguments" value="-p 1883" />
+            <Param name="RestartOnEachTest" value="false" />
+			<Param name="Faultonearlyexit" value="true" />
+			<!-- <Param name="StartOnCall" value="mqttCall"/> -->
+    	</Monitor> 
+	</Agent> 
+
+	<Test name="Protocol">
+		<StateModel ref="State"/>
+		<Publisher class="udp.Udp">
+			<Param name="Host" value="255.255.255.255" /> <!-- Change this if your running more than one DHCP server -->
+			<Param name="Port" value="66" />
+		</Publisher>
+	</Test>
+
+	
+	<Test name="DHCPdown">
+		<StateModel ref="State"/>
+		<Publisher class="udp.Udp">
+			<Param name="Host" value="255.255.255.255" /> <!-- Change this if your running more than one DHCP server -->
+			<Param name="Port" value="67" />
+		</Publisher>
+	</Test>
+
+
+	<Test name="Default" replayEnabled="false">
+		<!-- <Param name="replayEnabled" value="false" /> -->
+		<Agent ref="LinAgent" platform="linux"/> 
+
+		<StateModel ref="mqttStateModel"/>
+	
+		<Publisher class="TcpClient" name="client">
+			<Param name="Host" value="127.0.0.1" />
+			<Param name="Port" value="1883" />
+		</Publisher>
+
+		<Strategy class="Random">
+			<Param name="MaxFieldsToMutate" value="20"/>
+		</Strategy>
+
+		<Logger class="File">
+			<Param name="Path" value="Logs" />
+		</Logger>
+	</Test>
+
+
+	
+	<Run name="DefaultRun">
+		<Test ref="Protocol" />
+	</Run>
+	
+</Peach>
